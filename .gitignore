@@ -1,2 +1,5 @@
 venv/
-
+_datasets/emnist_bymerge/
+_datasets/gzip/
+_datasets/emnist-gzip.zip
+_datasets/gzip.zip

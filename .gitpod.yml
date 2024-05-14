@@ -11,12 +11,13 @@ tasks:
       source venv/bin/activate
       sudo apt-get install libgl1-mesa-glx
       pip install tensorflow
+      pip install tensorflow_datasets
       pip install mltu
-      pip install stow
-      pip install tf2onnx
-      pip install pydot graphviz
+#      pip install stow
+#      pip install tf2onnx
+#      pip install pydot graphviz
       pip install scikit-learn
-      pip install emnist
+#      pip install emnist
       clear
       echo "YOUR WORKSPACE IS READY FOR CODING!"
 
