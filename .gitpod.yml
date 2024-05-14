@@ -16,6 +16,7 @@ tasks:
       pip install tf2onnx
       pip install pydot graphviz
       pip install scikit-learn
+      pip install emnist
       clear
       echo "YOUR WORKSPACE IS READY FOR CODING!"
 
