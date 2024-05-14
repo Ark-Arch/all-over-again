@@ -16,7 +16,6 @@ tasks:
       pip install tf2onnx
       pip install pydot graphviz
       pip install scikit-learn
-      #      python3 projects/project1/dataset.py
       clear
       echo "YOUR WORKSPACE IS READY FOR CODING!"
 
