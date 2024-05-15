@@ -3,3 +3,5 @@ _datasets/emnist_bymerge/
 _datasets/gzip/
 _datasets/emnist-gzip.zip
 _datasets/gzip.zip
+_datasets/IMPORTANT_DATASET/emnist_bymerge_test_dataset.npz
+_datasets/IMPORTANT_DATASET/emnist_bymerge_train_dataset.npz

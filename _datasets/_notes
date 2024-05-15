@@ -5,8 +5,7 @@ https://www.westernsydney.edu.au/icns/resources/reproducible_research3/publicati
 
 
 I PICKED THE BELOW VERY HELPFUL>
-https://github.com/otenim/Python-EMNIST-Decoder
-$ sh download_binary.sh
+http download_binary.sh
 $ unzip gzip.zip
 $ cd gzip/
 $ gzip -d emnist-*.gz
