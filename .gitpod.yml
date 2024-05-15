@@ -2,6 +2,8 @@
 # Please adjust to your needs (see https://www.gitpod.io/docs/introduction/learn-gitpod/gitpod-yaml)
 # and commit this file to your remote git repository to share the goodness with others.
 
+# pip install emnist
+
 # Learn more from ready-to-use templates: https://www.gitpod.io/docs/introduction/getting-started/quickstart
 
 tasks:
@@ -13,11 +15,10 @@ tasks:
       pip install tensorflow
       pip install tensorflow_datasets
       pip install mltu
-#      pip install stow
-#      pip install tf2onnx
-#      pip install pydot graphviz
+      pip install stow
+      pip install tf2onnx
+      pip install pydot graphviz
       pip install scikit-learn
-#      pip install emnist
       clear
       echo "YOUR WORKSPACE IS READY FOR CODING!"
 
