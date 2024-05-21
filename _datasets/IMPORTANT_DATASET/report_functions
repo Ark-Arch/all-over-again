@@ -1,0 +1,33 @@
+### FUNCTION ONE
+
+import cv2
+import numpy as np
+from skimage.morphology import skeletonize
+
+def preprocess_image(image):
+    # Binarize the image
+    _, binarized = cv2.threshold(image, 127, 255, cv2.THRESH_BINARY)
+    
+    # Compute gradient magnitude
+    Gx = cv2.Sobel(binarized, cv2.CV_64F, 1, 0, ksize=3)
+    Gy = cv2.Sobel(binarized, cv2.CV_64F, 0, 1, ksize=3)
+    gradient_magnitude = np.sqrt(Gx**2 + Gy**2)
+    gradient_magnitude = cv2.normalize(gradient_magnitude, None, 0, 255, cv2.NORM_MINMAX).astype(np.uint8)
+    
+    # Compute thinned image
+    thinned = skeletonize(binarized // 255).astype(np.uint8) * 255
+    
+    return binarized, gradient_magnitude, thinned
+
+#image = cv2.imread('emnist_sample.jpg', cv2.IMREAD_GRAYSCALE)
+binarized, gradient_magnitude, thinned = preprocess_image(image)
+
+# Display the results
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(15, 5))
+plt.subplot(1, 4, 1), plt.imshow(image, cmap='gray'), plt.title('Original Image (DIGIT 5)')
+plt.subplot(1, 4, 2), plt.imshow(binarized, cmap='gray'), plt.title('Binarized Image')
+plt.subplot(1, 4, 3), plt.imshow(gradient_magnitude, cmap='gray'), plt.title('Gradient Magnitude Image')
+plt.subplot(1, 4, 4), plt.imshow(thinned, cmap='gray'), plt.title('Thinned Image')
+plt.show()
