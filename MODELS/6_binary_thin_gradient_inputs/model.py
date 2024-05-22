@@ -3,9 +3,13 @@ import tensorflow as tf
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Conv2D, Activation, MaxPooling2D, Flatten, Dropout, Dense, concatenate
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau, TensorBoard
+
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
+
+#from keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau, TensorBoard
+from mltu.tensorflow.callbacks import TrainLogger
 
 # Split function
 def split_dataset(data, labels):
@@ -21,6 +25,9 @@ train_bin_images = train_data['binary_images']
 train_labels = train_data['labels']
 test_bin_images = test_data['binary_images']
 test_labels = test_data['labels']
+
+y_train = train_labels
+y_test = test_labels
 
 # Normalize the data
 X_train_bin = tf.keras.utils.normalize(train_bin_images, axis=1)
@@ -60,33 +67,33 @@ input_thin = Input(shape=(28, 28, 1))
 input_grad = Input(shape=(28, 28, 1))
 
 # Define convolutional layers for binarized images
-x_bin = Conv2D(32, (3, 3), activation='relu', padding='same')(input_bin)
+x_bin = Conv2D(32, (3, 3), activation='relu')(input_bin)
 x_bin = MaxPooling2D((2, 2))(x_bin)
-x_bin = Conv2D(64, (3, 3), activation='relu', padding='same')(x_bin)
+x_bin = Conv2D(64, (3, 3), activation='relu')(x_bin)
 x_bin = MaxPooling2D((2, 2))(x_bin)
-x_bin = Conv2D(128, (3, 3), activation='relu', padding='same')(x_bin)
+x_bin = Conv2D(128, (3, 3), activation='relu' )(x_bin)
 x_bin = MaxPooling2D((2, 2))(x_bin)
 x_bin = Flatten()(x_bin)
 x_bin = Dropout(0.3)(x_bin)
 x_bin = Dense(128, activation='relu')(x_bin)
 
 # Define convolutional layers for thinned images
-x_thin = Conv2D(32, (3, 3), activation='relu', padding='same')(input_thin)
+x_thin = Conv2D(32, (3, 3), activation='relu' )(input_thin)
 x_thin = MaxPooling2D((2, 2))(x_thin)
-x_thin = Conv2D(64, (3, 3), activation='relu', padding='same')(x_thin)
+x_thin = Conv2D(64, (3, 3), activation='relu' )(x_thin)
 x_thin = MaxPooling2D((2, 2))(x_thin)
-x_thin = Conv2D(128, (3, 3), activation='relu', padding='same')(x_thin)
+x_thin = Conv2D(128, (3, 3), activation='relu' )(x_thin)
 x_thin = MaxPooling2D((2, 2))(x_thin)
 x_thin = Flatten()(x_thin)
 x_thin = Dropout(0.3)(x_thin)
 x_thin = Dense(128, activation='relu')(x_thin)
 
 # Define convolutional layers for gradient images
-x_grad = Conv2D(32, (3, 3), activation='relu', padding='same')(input_grad)
+x_grad = Conv2D(32, (3, 3), activation='relu' )(input_grad)
 x_grad = MaxPooling2D((2, 2))(x_grad)
-x_grad = Conv2D(64, (5, 5), activation='relu', padding='same')(x_grad)
+x_grad = Conv2D(64, (5, 5), activation='relu' )(x_grad)
 x_grad = MaxPooling2D((2, 2))(x_grad)
-x_grad = Conv2D(128, (3, 3), activation='relu', padding='same')(x_grad)
+x_grad = Conv2D(128, (3, 3), activation='relu' )(x_grad)
 x_grad = MaxPooling2D((2, 2))(x_grad)
 x_grad = Flatten()(x_grad)
 x_grad = Dropout(0.3)(x_grad)
@@ -108,8 +115,6 @@ model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=
 #model.summary()
 #print('MODEL HAS BEEN SUMMARIZED')
 
-model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-
 # Define callbacks
 earlystopper = EarlyStopping(monitor="val_accuracy", mode='max', patience=5, verbose=1)
 checkpoint = ModelCheckpoint(f"model.keras", monitor="val_accuracy", verbose=1, save_best_only=True, mode="max")
@@ -117,10 +122,13 @@ trainLogger = TrainLogger('train_log')
 tb_callback = TensorBoard(f"logs", update_freq=1)
 reduceLROnPlat = ReduceLROnPlateau(monitor="val_accuracy", factor=0.9, min_delta=1e-10, patience=4, verbose=1, mode="auto")
 
+X_train = [X_train_bin, X_train_grad, X_train_thin]
+
+# Model training
 model.fit(
-    X_trainr, 
+    X_train, 
     y_train, 
     epochs=50,
-    validation_split= 0.3,
-    callbacks=[earlystopper, checkpoint, trainLogger, reduceLROnPlat, tb_callback],
-    )
+    validation_split=0.3,
+    callbacks=[earlystopper, checkpoint, trainLogger, reduceLROnPlat, tb_callback]
+)
