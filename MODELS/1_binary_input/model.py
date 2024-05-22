@@ -31,6 +31,8 @@ test_images = test_data['binary_images']
 test_labels = test_data['labels']
 
 #print(np.unique(train_images[0]))
+y_train = train_labels
+y_test = test_labels
 
 # NORMALIZE THE DATA
 X_train = tf.keras.utils.normalize(train_images, axis = 1)
@@ -79,6 +81,28 @@ model.add(Activation("relu"))
 model.add(Dense(47))
 model.add(Activation("softmax"))
 
-
 # THE SUMMARY OF THE MODEL 
 model.summary()
+
+
+model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+# Define callbacks
+earlystopper = EarlyStopping(monitor="val_accuracy", mode='max', patience=5, verbose=1)
+checkpoint = ModelCheckpoint(f"model.keras", monitor="val_accuracy", verbose=1, save_best_only=True, mode="max")
+trainLogger = TrainLogger('train_log')
+tb_callback = TensorBoard(f"logs", update_freq=1)
+reduceLROnPlat = ReduceLROnPlateau(monitor="val_accuracy", factor=0.9, min_delta=1e-10, patience=4, verbose=1, mode="auto")
+
+model.fit(
+    X_trainr, 
+    y_train, 
+    epochs=50,
+    validation_split= 0.3,
+    callbacks=[earlystopper, checkpoint, trainLogger, reduceLROnPlat, tb_callback],
+    )
+
+# EVALUATING THE TESTING DATA
+test_loss, test_acc = model.evaluate(X_testr, y_test)
+print("Test loss on test samples", test_loss)
+print("Validation Accuracy on test samples", test_acc)
