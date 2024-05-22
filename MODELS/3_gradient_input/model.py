@@ -24,10 +24,10 @@ train_data = np.load('../emnist_bymerge_train_dataset.npz')
 test_data = np.load('../emnist_bymerge_test_dataset.npz')
 
 # Access the arrays in the .npz file
-train_images = train_data['binary_images']
+train_images = train_data['gradient_images']
 train_labels = train_data['labels']
 
-test_images = test_data['binary_images']
+test_images = test_data['gradient_images']
 test_labels = test_data['labels']
 
 #print(np.unique(train_images[0]))
