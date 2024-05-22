@@ -2,6 +2,8 @@ venv/
 _datasets/emnist_bymerge/
 _datasets/gzip/
 _datasets/emnist-gzip.zip
+_datasets/IMPORTANT_DATASET/emnist-gzip.zip
 _datasets/gzip.zip
 _datasets/IMPORTANT_DATASET/emnist_bymerge_test_dataset.npz
 _datasets/IMPORTANT_DATASET/emnist_bymerge_train_dataset.npz
+MODELS/1_binary_input/emnist*.npz

@@ -1,0 +1,84 @@
+import cv2
+import tensorflow as tf 
+import numpy as np
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
+
+from keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau, TensorBoard
+from mltu.tensorflow.callbacks import TrainLogger
+
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten, Conv2D, MaxPooling2D, Input
+from tensorflow.keras import regularizers
+
+# split function
+def split_dataset(data, labels):
+    X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=0.2, random_state=42)
+    return X_train, X_test, y_train, y_test
+
+# load data
+# Load the .npz file
+train_data = np.load('emnist_bymerge_train_dataset.npz')
+test_data = np.load('emnist_bymerge_test_dataset.npz')
+
+# Access the arrays in the .npz file
+train_images = train_data['binary_images']
+train_labels = train_data['labels']
+
+test_images = test_data['binary_images']
+test_labels = test_data['labels']
+
+#print(np.unique(train_images[0]))
+
+# NORMALIZE THE DATA
+X_train = tf.keras.utils.normalize(train_images, axis = 1)
+X_test = tf.keras.utils.normalize(test_images, axis = 1)
+
+# RESHAPE THE IMAGE TO MAKE IT SUITABLE FOR APPLYING CONVOLUTION OPERATION
+X_trainr = np.array(X_train).reshape(-1, 28, 28, 1)
+X_testr = np.array(X_test).reshape(-1, 28, 28, 1)
+
+# CREATING A DEEP NEURAL NETWORK
+model = Sequential()
+
+# Input Layer
+model.add(Input(shape = X_trainr.shape[1:]))
+
+# First Convolution Layer
+model.add(Conv2D(32, kernel_size=(3,3)))
+model.add(Activation("relu"))
+model.add(MaxPooling2D(pool_size=(2,2)))
+
+# Second Convolution Layer
+model.add(Conv2D(64, kernel_size=(3,3)))
+model.add(Activation("relu"))
+model.add(MaxPooling2D(pool_size=(2,2)))
+
+# Third Convolution Layer
+model.add(Conv2D(128, kernel_size=(3,3)))
+model.add(Activation("relu"))
+model.add(MaxPooling2D(pool_size=(2,2)))
+
+# Flatten
+model.add(Flatten())
+
+# DropOut
+model.add(Dropout(0.3))
+
+# Fully Connected Layers
+model.add(Dense(128))
+model.add(Activation("relu"))
+model.add(Dense(64))
+model.add(Activation("relu"))
+model.add(Dense(32))
+model.add(Activation("relu"))
+
+# CLASSIFICATION LAYER
+model.add(Dense(47))
+model.add(Activation("softmax"))
+
+
+# THE SUMMARY OF THE MODEL 
+model.summary()

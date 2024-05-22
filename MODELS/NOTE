@@ -1,0 +1,14 @@
+THE MODELS TO BE DESIGNED INVOLVES THE FOLLOWING
+
+CNN APPROACH
+1. binary
+2. gradient
+3. thin
+
+DCNN APPROACH
+4. binary and gradient
+5. binary and thinning
+6. thinning and gradient
+
+TCNN APPROACH
+7. binary, gradient and thinning
