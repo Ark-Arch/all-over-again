@@ -1,6 +1,9 @@
 import gzip
 import numpy as np
 import os
+import cv2
+from skimage.morphology import skeletonize
+
 
 # BINARIZE THE images
 def binarize_image(image):
@@ -28,8 +31,8 @@ def thinning(image):
 
 # LOAD THE DATASET
 def load_emnist_data(dataset_path):
-    images_file = os.path.join(dataset_path, 'emnist-bymerge-train-images-idx3-ubyte.gz')
-    labels_file = os.path.join(dataset_path, 'emnist-bymerge-train-labels-idx1-ubyte.gz')
+    images_file = os.path.join(dataset_path, 'emnist-bymerge-test-images-idx3-ubyte.gz')
+    labels_file = os.path.join(dataset_path, 'emnist-bymerge-test-labels-idx1-ubyte.gz')
 
     with gzip.open(images_file, 'rb') as f:
         images = np.frombuffer(f.read(), dtype=np.uint8, offset=16).reshape(-1, 28, 28)
@@ -52,4 +55,4 @@ thinned_images = np.array([thinning(img) for img in images])
 print("thin now set. i.e. ALL SET!")
 
 # Save as .npz
-np.savez('emnist_bymerge_train_dataset.npz', images=images, binary_images=binarized_images, gradient_images=gradiented_images, thin_images=thinned_images,labels=labels)
+np.savez('emnist_bymerge_test_dataset.npz', images=images, binary_images=binarized_images, gradient_images=gradiented_images, thin_images=thinned_images,labels=labels)
