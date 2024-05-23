@@ -44,7 +44,7 @@ images, labels = load_emnist_data(dataset_path)
 
 
 print("ORIGINAL IMAGES ALREADY DOWNLOADED! waiting on others")
-binarized_images = np.array([binarise_image(img) for img in images])
+binarized_images = np.array([binarize_image(img) for img in images])
 print("binaries now set")
 gradiented_images = np.array([compute_gradient_magnitude(img) for img in images])
 print("gradient now set")
