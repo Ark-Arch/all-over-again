@@ -12,5 +12,9 @@ images2 = data2['images']
 labels2 = data2['labels']
 
 # Use the loaded data
-print(images.shape[0] + images2.shape[0])
-print(labels.shape[0] + labels2.shape[0])
+print(f'the training images are {len(images2)}')
+print(f'the testing images are {len(images)}')
+print(f"total number of images {len(images) + len(images2)}")
+
+combined_labels = np.concatenate((labels, labels2))
+np.savez('the_labels.npz', labels=combined_labels)
