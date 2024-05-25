@@ -53,7 +53,6 @@ def load_emnist_data(dataset_path):
 dataset_path = 'gzip'
 images, labels = load_emnist_data(dataset_path)
 
-
 print("ORIGINAL IMAGES ALREADY DOWNLOADED! waiting on others")
 binarized_images = np.array([binarize_image(img) for img in images])
 print("binaries now set")
