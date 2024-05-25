@@ -1,0 +1,14 @@
+{
+    "name": "My Development Container",
+    "image": "mcr.microsoft.com/vscode/devcontainers/python:3.9", // Use an appropriate base image
+    "settings": {
+      "terminal.integrated.shell.linux": "/bin/bash"
+    },
+    "extensions": [
+      "ms-python.python",
+      "ms-azuretools.vscode-docker"
+    ],
+    "postCreateCommand": "bash .devcontainer/setup.sh",
+    "remoteUser": "vscode"
+  }
+  
