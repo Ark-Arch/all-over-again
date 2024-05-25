@@ -13,6 +13,8 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten, Conv2D, MaxPooling2D, Input
 from tensorflow.keras import regularizers
 
+print("I HAVE STARTED")
+
 # split function
 def split_dataset(data, labels):
     X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=0.2, random_state=42)
@@ -20,8 +22,8 @@ def split_dataset(data, labels):
 
 # load data
 # Load the .npz file
-train_data = np.load('../emnist_bymerge_train_dataset.npz')
-test_data = np.load('../emnist_bymerge_test_dataset.npz')
+train_data = np.load('../reviewed_train_dataset.npz')
+test_data = np.load('../reviewed_test_dataset.npz')
 
 # Access the arrays in the .npz file
 train_images = train_data['binary_images']
@@ -41,6 +43,8 @@ X_test = tf.keras.utils.normalize(test_images, axis = 1)
 # RESHAPE THE IMAGE TO MAKE IT SUITABLE FOR APPLYING CONVOLUTION OPERATION
 X_trainr = np.array(X_train).reshape(-1, 28, 28, 1)
 X_testr = np.array(X_test).reshape(-1, 28, 28, 1)
+
+print("I GOT HERE!")
 
 # CREATING A DEEP NEURAL NETWORK
 model = Sequential()
@@ -84,7 +88,7 @@ model.add(Activation("softmax"))
 # THE SUMMARY OF THE MODEL 
 model.summary()
 
-
+"""
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 # Define callbacks
@@ -103,6 +107,8 @@ model.fit(
     )
 
 # EVALUATING THE TESTING DATA
-test_loss, test_acc = model.evaluate(X_testr, y_test)
-print("Test loss on test samples", test_loss)
-print("Validation Accuracy on test samples", test_acc)
+#test_loss, test_acc = model.evaluate(X_testr, y_test)
+#print("Test loss on test samples", test_loss)
+#print("Validation Accuracy on test samples", test_acc)
+
+"""
