@@ -3,7 +3,10 @@ masters thesis work all over again
 
 funny repo title yeah?..
 
-I just ran of titles, given that i had to redo this again!. -> almost frustrating, but I'll trust the ride.
+I just ran of titles, since i had to redo this again!. -> almost frustrating, but I'll trust the ride.
+# If there is any questions that seemed unanswered by this repo, check my second account (https://github.com/Arch-Ark/imported_repo.git)
+# circumstances made me import
+
 
 the idea is to juxtapose three CNN models:
 - Single Input Convolutional Neural Network
@@ -15,10 +18,9 @@ dataset would be the EMNIST dataset.
 input variations would be:
 - binarized images
 - gradient magnitude images
-- gaussina blur image
+- thinning image
 
 pre-processing techniques
-- thinning
 - thresholding for contrast enhancement
 - centered images
 - padded images
